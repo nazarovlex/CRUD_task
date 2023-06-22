@@ -12,3 +12,21 @@ services:
       - 5432:5432
     volumes:
       - ./.artifacts/postgres/:/var/lib/postgresql/data
+    networks:
+      - web
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    restart: on-failure
+    ports:
+      - 8000:8000
+    networks:
+      - web
+    depends_on:
+      - postgres
+
+networks:
+  web:
+    name: web
