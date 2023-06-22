@@ -36,10 +36,15 @@ async def add_user(user_data: AddUserRequest):
         "username": user_data.username,
         "email": user_data.email
     }
+    try:
+        db = SessionLocal()
+        query = insert(UsersTable).values(**user)
+        db.execute(query)
+    except Exception as error:
+        db.rollback()
+        Response.status_code = 500
+        return {"error": f"add new user failed - {error}"}
 
-    db = SessionLocal()
-    query = insert(UsersTable).values(**user)
-    db.execute(query)
     db.commit()
     db.close()
 
