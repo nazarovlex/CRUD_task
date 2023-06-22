@@ -30,7 +30,7 @@ async def shutdown():
 
 
 @app.post("/add_user", status_code=201)
-async def add_user(user_data: AddUserRequest):
+async def add_user(response: Response, user_data: AddUserRequest):
     # take request data
     user = {
         "user_uuid": str(uuid.uuid4()),
@@ -50,8 +50,8 @@ async def add_user(user_data: AddUserRequest):
     except Exception as error:
         db.rollback()
         db.close()
-        Response.status_code = 500
-        return {"error": f"add new user failed - {error}"}
+        response.status_code = 500
+        return {"error": f"add new user failed, error: {error}"}
 
     # commit changes in DB and close session
     db.commit()
@@ -61,15 +61,19 @@ async def add_user(user_data: AddUserRequest):
 
 
 @app.delete("/delete_user", status_code=200)
-async def add_user(id: str = Query(description="id")):
+async def delete_user(response: Response, id: str = Query(description="id")) -> dict:
+    # DB session init
     db = SessionLocal()
-    try:
-        user = db.query(UsersTable).filter(UsersTable.user_uuid == id).first()
-    except Exception as error:
-        Response.status_code = 500
-        return {"error": f"find user with uuid:{id} - {error}"}
 
-    db.delete(user)
+    # exception handling of wrong user id and delete user
+    try:
+        user = db.query(UsersTable).filter(UsersTable.user_uuid == id).one()
+        db.delete(user)
+    except Exception as error:
+        response.status_code = 400
+        return {"error": f"can't find user with uuid:{id}, error: {error}"}
+
+    # commit changes and close DB
     db.commit()
     db.close()
 
