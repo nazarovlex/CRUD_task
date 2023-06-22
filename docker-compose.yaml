@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: CRUD_task_DB
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.artifacts/postgres/:/var/lib/postgresql/data
