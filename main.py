@@ -122,7 +122,10 @@ async def delete_user(response: Response, id: str = Query(description="id")) -> 
 
     # exception handling of wrong user id
     try:
-        user_DB = db.query(UsersTable).filter(UsersTable.user_uuid == id).first()
+        user = db.query(UsersTable).filter(UsersTable.user_uuid == id).first()
+        if not user:
+            response.status_code = 400
+            return {"error": f"can't find user with id:{id}"}
     except Exception as error:
         db.close()
         response.status_code = 400
@@ -130,9 +133,9 @@ async def delete_user(response: Response, id: str = Query(description="id")) -> 
 
     # takes user data from DB
     user_data = {
-        "user_uuid": user_DB.user_uuid,
-        "username": user_DB.username,
-        "email": user_DB.email
+        "user_uuid": user.user_uuid,
+        "username": user.username,
+        "email": user.email
     }
 
     # commit changes and close DB
