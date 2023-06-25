@@ -1,5 +1,4 @@
 .idea
 venv
 __pycache__
-.artifacts
-.pytest_cache
+pg_data
