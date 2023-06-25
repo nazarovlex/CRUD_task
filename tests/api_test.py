@@ -1,9 +1,9 @@
 import pytest
-from main import app, validate_email
 from fastapi.testclient import TestClient
-from models import UsersTable
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from api.main import app, validate_email
+from storage.models import UsersTable
 
 # database settings
 db_url = 'postgresql://postgres:postgres@postgres:5432/CRUD_task_DB'
