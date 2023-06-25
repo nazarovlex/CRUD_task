@@ -1,0 +1,29 @@
+# CRUD task
+To run project install requirements:     
+- docker     
+- docker-compose
+- Makefile
+
+To prepare project execute command:
+- make build
+
+To start project execute command:
+- make start
+
+To stop project execute command:
+- make stop
+
+To remove database artifacts, pytest cache and unused docker data, execute command:
+- make clean
+
+To restart project (build, start) execute command:
+- make restart
+
+To start tests, after project start, execute command:
+- make test
+
+API request examples in folder "API_request_examples".
+
+For more info about API run app and open link "http://localhost:8000/docs" or "http://localhost:8000/redoc".
+
+
