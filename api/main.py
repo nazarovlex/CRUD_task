@@ -3,9 +3,9 @@ import uvicorn
 import re
 from fastapi import FastAPI, Query
 from fastapi.responses import Response
-from models import UsersTable, AddUserRequest, UpdateUserRequest
-from storage import database, engine, Base, SessionLocal
 from sqlalchemy.dialects.postgresql import insert
+from storage.models import UsersTable, AddUserRequest, UpdateUserRequest
+from storage.storage import database, engine, Base, SessionLocal
 
 # FastAPI init
 app = FastAPI()
