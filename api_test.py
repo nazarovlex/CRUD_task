@@ -1,5 +1,5 @@
 import pytest
-from main import app
+from main import app, validate_email
 from fastapi.testclient import TestClient
 from models import UsersTable
 from sqlalchemy import create_engine
@@ -17,7 +17,8 @@ def test_client():
         yield client
 
 
-def test_handler_add_user(test_client):
+@pytest.mark.asyncio
+async def test_handler_add_user(test_client):
     data = {
         "username": 'pytest',
         "email": "pytest@test.com"
@@ -38,7 +39,8 @@ def test_handler_add_user(test_client):
     db.close()
 
 
-def test_handler_delete_user(test_client):
+@pytest.mark.asyncio
+async def test_handler_delete_user(test_client):
     data = {
         "username": 'test_handler_delete_user',
         "email": "test_handler_delete_user@test.com"
@@ -63,7 +65,8 @@ def test_handler_delete_user(test_client):
     db.close()
 
 
-def test_handler_update_user(test_client):
+@pytest.mark.asyncio
+async def test_handler_update_user(test_client):
     data = {
         "username": 'test_handler_add_user',
         "email": "test_handler_add_user@test.com"
@@ -101,7 +104,8 @@ def test_handler_update_user(test_client):
     db.close()
 
 
-def test_handler_user_info(test_client):
+@pytest.mark.asyncio
+async def test_handler_user_info(test_client):
     data = {
         "username": 'test_handler_add_user',
         "email": "test_handler_add_user@test.com"
@@ -128,3 +132,26 @@ def test_handler_user_info(test_client):
     db.delete(user)
     db.commit()
     db.close()
+
+
+@pytest.mark.asyncio
+async def test_email_validator(test_client):
+    email_1 = "qwe@gmail.com"
+    valid_email = await validate_email(email_1)
+    assert valid_email
+
+    email_2 = "qwegmail.com"
+    valid_email = await validate_email(email_2)
+    assert not valid_email
+
+    email_3 = "qwe@@gmail.com"
+    valid_email = await validate_email(email_3)
+    assert not valid_email
+
+    email_4 = "qwe@gmailcom"
+    valid_email = await validate_email(email_4)
+    assert not valid_email
+
+    email_5 = "qweasdqwbqwe"
+    valid_email = await validate_email(email_5)
+    assert not valid_email
