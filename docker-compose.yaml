@@ -11,14 +11,14 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./.artifacts/postgres/:/var/lib/postgresql/data
+      - ./pg_data/:/var/lib/postgresql/data
     networks:
       - web
 
   web:
     build:
       context: .
-      dockerfile: Dockerfile.web
+      dockerfile: Dockerfile
     restart: on-failure
     ports:
       - 8000:8000
