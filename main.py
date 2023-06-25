@@ -1,5 +1,6 @@
 import uuid
 import uvicorn
+import re
 from fastapi import FastAPI, Query
 from fastapi.responses import Response
 from models import UsersTable, AddUserRequest, UpdateUserRequest
@@ -29,8 +30,22 @@ async def shutdown():
     await database.disconnect()
 
 
+# validate email func
+async def validate_email(email):
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    if re.match(pattern, email):
+        return True
+    else:
+        return False
+
+
 @app.post("/add_user", status_code=201)
 async def add_user(response: Response, user_data: AddUserRequest):
+    # email validation
+    valid_email = await validate_email(user_data.email)
+    if not valid_email:
+        response.status_code = 400
+        return {"error": "not valid email"}
     # take request data
     user = {
         "user_uuid": str(uuid.uuid4()),
@@ -43,6 +58,12 @@ async def add_user(response: Response, user_data: AddUserRequest):
 
     # create query for postgre
     query = insert(UsersTable).values(**user)
+
+    # check existed email
+    existed_email = db.query(UsersTable).filter(UsersTable.email == user_data.email).first()
+    if existed_email:
+        response.status_code = 400
+        return {"error": "account with this email already exists"}
 
     # exception handling of DB insertion
     try:
@@ -62,6 +83,11 @@ async def add_user(response: Response, user_data: AddUserRequest):
 
 @app.put("/update_user", status_code=201)
 async def update_user(response: Response, user_data: UpdateUserRequest):
+    # email validation
+    valid_email = await validate_email(user_data.email)
+    if not valid_email:
+        response.status_code = 400
+        return {"error": "not valid email"}
     # take request data
     user = {
         "user_uuid": user_data.user_id,
@@ -72,11 +98,18 @@ async def update_user(response: Response, user_data: UpdateUserRequest):
     # DB session init
     db = SessionLocal()
 
-    old_user_data = db.query(UsersTable).filter(UsersTable.user_uuid == user_data.user_id).one()
+    old_user_data = db.query(UsersTable).filter(UsersTable.user_uuid == user_data.user_id).first()
     if not old_user_data:
         db.close()
         response.status_code = 400
         return {"error": f"can't find user with id: {user_data.user_id}"}
+
+    if old_user_data.email != user_data.email:
+        # check existed email
+        existed_email = db.query(UsersTable).filter(UsersTable.email == user_data.email).first()
+        if existed_email:
+            response.status_code = 400
+            return {"error": "other account with this email already exists"}
 
     try:
         for key, value in user.items():
@@ -116,7 +149,6 @@ async def delete_user(response: Response, id: str = Query(description="id")) -> 
 
 @app.get("/user_data", status_code=200)
 async def delete_user(response: Response, id: str = Query(description="id")) -> dict:
-
     # DB session init
     db = SessionLocal()
 
