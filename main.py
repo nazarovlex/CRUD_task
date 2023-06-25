@@ -4,7 +4,7 @@ import re
 from fastapi import FastAPI, Query
 from fastapi.responses import Response
 from models import UsersTable, AddUserRequest, UpdateUserRequest
-from database import database, engine, Base, SessionLocal
+from storage import database, engine, Base, SessionLocal
 from sqlalchemy.dialects.postgresql import insert
 
 # FastAPI init
@@ -148,7 +148,7 @@ async def delete_user(response: Response, id: str = Query(description="id")) -> 
 
 
 @app.get("/user_data", status_code=200)
-async def delete_user(response: Response, id: str = Query(description="id")) -> dict:
+async def user_data(response: Response, id: str = Query(description="id")) -> dict:
     # DB session init
     db = SessionLocal()
 
@@ -164,7 +164,7 @@ async def delete_user(response: Response, id: str = Query(description="id")) -> 
         return {"error": f"can't find user with id:{id}, error: {error}"}
 
     # takes user data from DB
-    user_data = {
+    db_user_data = {
         "user_uuid": user.user_uuid,
         "username": user.username,
         "email": user.email
@@ -174,7 +174,7 @@ async def delete_user(response: Response, id: str = Query(description="id")) -> 
     db.commit()
     db.close()
 
-    return {"user_data": user_data}
+    return {"user_data": db_user_data}
 
 
 if __name__ == "__main__":
