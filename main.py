@@ -12,26 +12,26 @@ app = FastAPI()
 
 
 # create tables in DB
-async def create_tables():
+async def create_tables() -> None:
     # create tables if not exist
     Base.metadata.create_all(bind=engine)
 
 
 # create DB connection
 @app.on_event("startup")
-async def startup():
+async def startup() -> None:
     await database.connect()
     await create_tables()
 
 
 # close DB connection
 @app.on_event("shutdown")
-async def shutdown():
+async def shutdown() -> None:
     await database.disconnect()
 
 
 # validate email func
-async def validate_email(email):
+async def validate_email(email) -> bool:
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     if re.match(pattern, email):
         return True
@@ -40,7 +40,7 @@ async def validate_email(email):
 
 
 @app.post("/add_user", status_code=201)
-async def add_user(response: Response, user_data: AddUserRequest):
+async def add_user(response: Response, user_data: AddUserRequest) -> dict:
     # email validation
     valid_email = await validate_email(user_data.email)
     if not valid_email:
@@ -82,7 +82,7 @@ async def add_user(response: Response, user_data: AddUserRequest):
 
 
 @app.put("/update_user", status_code=201)
-async def update_user(response: Response, user_data: UpdateUserRequest):
+async def update_user(response: Response, user_data: UpdateUserRequest) -> dict:
     # email validation
     valid_email = await validate_email(user_data.email)
     if not valid_email:
