@@ -7,18 +7,13 @@ build:
 start:
 	docker-compose up
 
-.PHONY: stop
-stop:
-	docker-compose stop
-
 .PHONY: clean
 clean:
 	rm -rf pg_data
-	docker system prune
 
 .PHONY: test
 test:
-	docker exec -it crud_task_web_1 pytest api_test.py
+	docker exec -it crud_task_web_1 python -m pytest
 
 .PHONY: restart
 restart:
