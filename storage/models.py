@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import UUID
-from storage import Base
 from pydantic import BaseModel
+from storage.storage import Base
 
 
 # requests models
