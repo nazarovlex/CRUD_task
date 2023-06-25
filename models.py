@@ -21,4 +21,4 @@ class UsersTable(Base):
     __tablename__ = "users"
     user_uuid = Column(UUID, primary_key=True, unique=True)
     username = Column(String)
-    email = Column(String)
+    email = Column(String, unique=True)
