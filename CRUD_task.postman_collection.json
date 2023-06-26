@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "9fe7b172-e6c5-4d6d-bd21-db0f82382a3a",
+		"name": "CRUD_task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27515893"
+	},
+	"item": [
+		{
+			"name": "add_user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"Aleksey\",\n    \"email\": \"coolemail@gmail.com\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/add_user",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"add_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/delete_user?id=a823439a-433a-443b-b658-c6b3e3f56a2d",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"delete_user"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "a823439a-433a-443b-b658-c6b3e3f56a2d"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": \"4d4c6ff6-1f5d-4375-ad59-76d2db2c4b9f\",\n    \"username\": \"New username\",\n    \"email\": \"coolemail2@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/update_user",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"update_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/user_data?id=4d4c6ff6-1f5d-4375-ad59-76d2db2c4b9f",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user_data"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4d4c6ff6-1f5d-4375-ad59-76d2db2c4b9f"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
