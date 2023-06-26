@@ -1,29 +1,31 @@
-# CRUD task
-To run project install requirements:     
-- docker     
-- docker-compose
-- Makefile
+#CRUD Task 
+This project is a CRUD (Create, Read, Update, Delete) 
+users management application built using FastAPI and PostgreSQL. 
+It provides a RESTful API to manage users, allowing users to create, retrieve, update, 
+and delete user data.
 
-To prepare project execute command:
-- make build
+###Features
+* Create users: Users can create new users by providing their username and email.
+* Retrieve user data: Users can retrieve the details of existing users by their unique identifiers.   
+* Update users: Users can update the details of users, including their username and email.    
+* Delete users: Users can delete users by their unique identifiers.   
 
-To start project execute command:
-- make start
+###Installation Requirements
+ - Docker      
 
-To stop project execute command:
-- make stop
+###Getting Started
+To build and run the project, follow these steps:   
 
-To remove database artifacts, pytest cache and unused docker data, execute command:
-- make clean
+- Build the project: make build   
+- Start the project: make start   
+- Stop the project: make stop 
+- Remove database artifacts: make clean   
+- Restart the project (build and start): make restart 
+- Start tests (after project start): make test    
 
-To restart project (build, start) execute command:
-- make restart
+API request examples can be found in the "CRUD_task.postman_collection.json" in root folder.    
+Swagger can be found in the "swagger.json" in root folder.
 
-To start tests, after project start, execute command:
-- make test
-
-API request examples in folder "API_request_examples".
-
-For more info about API run app and open link "http://localhost:8000/docs" or "http://localhost:8000/redoc".
-
-
+For more information about the API, run the app and open the following links:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
