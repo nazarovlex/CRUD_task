@@ -9,7 +9,7 @@ start:
 
 .PHONY: clean
 clean:
-	rm -rf pg_data
+	rm -rf .pg_data
 
 .PHONY: test
 test:
