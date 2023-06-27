@@ -1,19 +1,19 @@
-#CRUD Task 
+#CRUD Task  
 This project is a CRUD (Create, Read, Update, Delete) 
 users management application built using FastAPI and PostgreSQL. 
 It provides a RESTful API to manage users, allowing users to create, retrieve, update, 
 and delete user data.
 
-Features
+###Features
 * Create users: Users can create new users by providing their username and email.
 * Retrieve user data: Users can retrieve the details of existing users by their unique identifiers.   
 * Update users: Users can update the details of users, including their username and email.    
 * Delete users: Users can delete users by their unique identifiers.   
 
-Installation Requirements
+###Installation Requirements
  - Docker      
 
-Getting Started  
+###Getting Started  
 To build and run the project, follow these steps:   
 
 - Build the project: make build   
