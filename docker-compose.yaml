@@ -8,7 +8,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: CRUD_task_DB
-      PGDATA: /pg-data
     ports:
       - 5432:5432
     volumes:
